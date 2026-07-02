@@ -33,6 +33,31 @@ res.json({
     message: "Username is valid"
 });
 
+
+const { username, email } = req.body;
+
+const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!usernameRegex.test(username)) {
+    return res.status(400).json({
+        success: false,
+        message: "Invalid Username"
+    });
+}
+
+if (!emailRegex.test(email)) {
+    return res.status(400).json({
+        success: false,
+        message: "Invalid Email"
+    });
+}
+
+res.json({
+    success: true,
+    message: "Username and Email are valid"
+});
+
 app.listen(3000, () => {
     console.log("Server Running...");
 });
