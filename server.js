@@ -9,54 +9,42 @@ app.get("/", (req, res) => {
 });
 
 app.post("/validate", (req, res) => {
+       const { username, email, password } = req.body;
+
+    const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!usernameRegex.test(username)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Username"
+        });
+    }
+
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Email"
+        });
+    }
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Password"
+        });
+    }
 
     res.json({
-        message: "Validation endpoint created",
-        data: req.body
+        success: true,
+        message: "Username, Email and Password are valid"
     });
 
 });
 
-  const { username } = req.body;
 
-const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
-
-if (!usernameRegex.test(username)) {
-    return res.status(400).json({
-        success: false,
-        message: "Invalid Username"
-    });
-}
-
-res.json({
-    success: true,
-    message: "Username is valid"
-});
-
-
-const { username, email } = req.body;
-
-const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-if (!usernameRegex.test(username)) {
-    return res.status(400).json({
-        success: false,
-        message: "Invalid Username"
-    });
-}
-
-if (!emailRegex.test(email)) {
-    return res.status(400).json({
-        success: false,
-        message: "Invalid Email"
-    });
-}
-
-res.json({
-    success: true,
-    message: "Username and Email are valid"
-});
+  
 
 app.listen(3000, () => {
     console.log("Server Running...");
