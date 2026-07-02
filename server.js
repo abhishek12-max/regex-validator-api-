@@ -4,6 +4,13 @@ const app = express();
 
 app.use(express.json());
 
+const regex = {
+    username: /^[A-Za-z0-9_]{3,15}$/,
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+    phone: /^[6-9]\d{9}$/
+};
+
 app.get("/", (req, res) => {
     res.json({
         message: "Regex Validator API is running"
@@ -14,26 +21,21 @@ app.post("/validate", (req, res) => {
 
     const { username, email, password, phone } = req.body;
 
-    const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    const phoneRegex = /^[6-9]\d{9}$/;
-
     const errors = {};
 
-    if (!usernameRegex.test(username)) {
+    if (!regex.username.test(username)) {
         errors.username = "Invalid Username";
     }
 
-    if (!emailRegex.test(email)) {
+    if (!regex.email.test(email)) {
         errors.email = "Invalid Email";
     }
 
-    if (!passwordRegex.test(password)) {
+    if (!regex.password.test(password)) {
         errors.password = "Invalid Password";
     }
 
-    if (!phoneRegex.test(phone)) {
+    if (!regex.phone.test(phone)) {
         errors.phone = "Invalid Phone Number";
     }
 
