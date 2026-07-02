@@ -36,15 +36,24 @@ app.post("/validate", (req, res) => {
         });
     }
 
-    res.json({
+    if (!phoneRegex.test(phone)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Phone Number"
+        });
+    }
+
+    res.status(200).json({
         success: true,
-        message: "Username, Email and Password are valid"
+        message: "All fields are valid",
+        data: {
+            username,
+            email,
+            phone
+        }
     });
 
 });
-
-
-  
 
 app.listen(3000, () => {
     console.log("Server Running...");
