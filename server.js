@@ -16,6 +16,23 @@ app.post("/validate", (req, res) => {
     });
 
 });
+
+  const { username } = req.body;
+
+const usernameRegex = /^[A-Za-z0-9_]{3,15}$/;
+
+if (!usernameRegex.test(username)) {
+    return res.status(400).json({
+        success: false,
+        message: "Invalid Username"
+    });
+}
+
+res.json({
+    success: true,
+    message: "Username is valid"
+});
+
 app.listen(3000, () => {
     console.log("Server Running...");
 });
